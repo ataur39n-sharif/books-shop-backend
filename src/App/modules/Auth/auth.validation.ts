@@ -1,7 +1,15 @@
 import {z, ZodType} from "zod";
 import {IUser} from "@/App/modules/User/user.types";
+import { IAuthProperty } from "./auth.types";
 
-const singUp: ZodType<IUser> = z.object({
+export interface IAuthWithName extends IAuthProperty{
+    name:{
+        firstName: string
+        lastName: string
+    }
+}
+
+const singUp: ZodType<IAuthWithName> = z.object({
     name: z.object({
         firstName: z.string(),
         lastName: z.string(),
@@ -10,7 +18,7 @@ const singUp: ZodType<IUser> = z.object({
     password: z.string()
 })
 
-const singIn: ZodType<Partial<IUser>> = z.object({
+const singIn: ZodType<Partial<IAuthProperty>> = z.object({
     email: z.string().email(),
     password: z.string()
 })

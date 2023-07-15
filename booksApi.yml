@@ -3,7 +3,7 @@ info:
   title: API for Book's shop
   version: "1.0"
 servers:
-  - url: http://localhost:5000
+  - url: http://localhost:5000/api/v1
 tags:
   - name: Auth
     description: User authentication
@@ -54,7 +54,7 @@ paths:
           $ref: "#/components/responses/400"
         "500":
           $ref: "#/components/responses/500"
-  "/auth/signup":
+  "/auth/register":
     post:
       description: Sign up as a new user
       tags:
@@ -65,12 +65,15 @@ paths:
             schema:
               type: object
               properties:
-                firstName:
-                  type: string
-                  example: Ataur
-                lastName:
-                  type: string
-                  example: Rahman
+                name:
+                  title: object
+                  properties:
+                    firstName:
+                      type: string
+                      example: Ataur
+                    lastName:
+                      type: string
+                      example: Rahman
                 email:
                   type: string
                   format: email
