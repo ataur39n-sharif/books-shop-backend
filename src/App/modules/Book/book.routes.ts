@@ -5,6 +5,7 @@ import {BookMiddleware} from "@/App/modules/Book/book.middleware";
 const BookRoutes = Router()
 
 BookRoutes
+    .get('/', BookController.GetAllBooks)
     .post('/',
         BookMiddleware.validateAccess,
         BookController.AddNewBook
