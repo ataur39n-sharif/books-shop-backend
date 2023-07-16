@@ -24,5 +24,6 @@ connectDB()
     .then(() => {
         app.listen(port, () => {
             console.log(`Server is listening on ${port}. Url: http://localhost:${port}`)
+            console.log(`Server documentation: http://localhost:${port}/api/v1/docs`)
         })
     })
