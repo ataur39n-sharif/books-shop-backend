@@ -7,7 +7,9 @@ const newBookSchema: ZodType<IBook> = z.object({
     author: z.string(),
     genre: z.string(),
     publicationDate: z.date(),
-    ownerId: z.instanceof(Types.ObjectId)
+    ownerId: z.instanceof(Types.ObjectId, {
+        message: 'AccessToken required.'
+    })
 })
 
 const updateBookSchema: ZodType<Partial<IBook>> = z.object({

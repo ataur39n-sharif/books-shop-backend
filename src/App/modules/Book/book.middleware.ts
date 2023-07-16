@@ -8,8 +8,7 @@ import {CustomJwtPayload} from "@/Utils/types/jwtHelper.type";
 const validateAccess = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const accessToken = req.headers.authorization
     const validateData = BookValidator.accessValidation.parse({accessToken})
-    const data = jwt.verify(validateData.accessToken, String(config.jwt.accessToken.secret))
-
+    const data = jwt.verify(validateData.accessToken.split(" ")[1], String(config.jwt.accessToken.secret))
     req.body.uid = (data as CustomJwtPayload).id
     req.body.email = (data as CustomJwtPayload).email
 

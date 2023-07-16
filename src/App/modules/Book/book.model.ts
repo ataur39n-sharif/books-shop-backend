@@ -18,6 +18,9 @@ const dataSchema = new Schema<IBook>({
         ref: 'user',
         required: true
     }
+}, {
+    timestamps: true,
+    versionKey: false
 })
 
 const BookModel = model<IBook>('book', dataSchema)
