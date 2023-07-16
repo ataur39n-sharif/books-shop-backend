@@ -5,6 +5,14 @@ import {BookMiddleware} from "@/App/modules/Book/book.middleware";
 const BookRoutes = Router()
 
 BookRoutes
-    .post('/', BookMiddleware.validateAccess, BookController.AddNewBook)
+    .post('/',
+        BookMiddleware.validateAccess,
+        BookController.AddNewBook
+    )
+    .patch('/:id',
+        BookMiddleware.validateAccess,
+        BookMiddleware.validateOwner,
+        BookController.EditBook
+    )
 
 export default BookRoutes
