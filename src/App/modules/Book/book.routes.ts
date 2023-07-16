@@ -14,5 +14,10 @@ BookRoutes
         BookMiddleware.validateOwner,
         BookController.EditBook
     )
+    .delete('/:id',
+        BookMiddleware.validateAccess,
+        BookMiddleware.validateOwner,
+        BookController.DeleteBook
+    )
 
 export default BookRoutes

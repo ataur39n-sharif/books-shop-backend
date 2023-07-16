@@ -44,7 +44,7 @@ const AddNewBook = catchAsync(async (req: Request, res: Response, next: NextFunc
 const EditBook = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const book_id = req.body.book_id
     const data: Partial<IBook> = pickFunction(req.body, ["title", "author", "publicationDate", "genre"])
-    
+
     const book = await BookService.updateBook(book_id, data)
 
     sendResponse.success(res, {
@@ -56,7 +56,12 @@ const EditBook = catchAsync(async (req: Request, res: Response, next: NextFuncti
 })
 
 const DeleteBook = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-
+    const id = req.body.book_id
+    const result = await BookService.deleteBook(id)
+    result && sendResponse.success(res, {
+        message: 'deleted successfully',
+        statusCode: 200
+    })
 })
 
 export const BookController = {
