@@ -29,7 +29,7 @@ export const manageSorting = (data: Partial<TSortOptions>): TSortOptions => {
     }
 }
 
-export const queryOptimization = async <M>(req: Request, fields: (keyof M)[], extraFields: string[] = []): Promise<IQueryItems<Partial<M>>> => {
+export const queryOptimization = <M>(req: Request, fields: (keyof M)[], extraFields: string[] = []): IQueryItems<any> => {
     const search: Partial<TSearchOption> = pickFunction(req.query, ["search"])
     const filter: Partial<any> = pickFunction(req.query, [
         ...fields.map((field) => String(field)),

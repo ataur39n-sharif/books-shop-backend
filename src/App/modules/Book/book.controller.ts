@@ -7,9 +7,22 @@ import {BookService} from "@/App/modules/Book/book.services";
 import {sendResponse} from "@/Utils/helper/sendResponse";
 import {MongoHelper} from "@/Utils/helper/mongoHelper";
 import {IBook} from "@/App/modules/Book/book.types";
+import {queryOptimization} from "@/Utils/helper/queryOptimize";
 
 const GetAllBooks = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const {
+        filter,
+        sort,
+        search,
+        pagination
+    } = queryOptimization<IBook>(req, ["title", "author", "publicationDate", "genre"])
 
+    const result = await BookService.getBooks({search, filter, pagination, sort})
+    sendResponse.success(res, {
+        data: result,
+        message: "Books retrieved successfully",
+        statusCode: 200
+    })
 })
 
 const GetOwnBook = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
