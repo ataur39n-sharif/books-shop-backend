@@ -49,7 +49,8 @@ const logIntoAccount = async (data: Partial<IAuthProperty>) => {
 
     return {
         accessToken,
-        refreshToken
+        refreshToken,
+        email: user?.email
     }
 }
 

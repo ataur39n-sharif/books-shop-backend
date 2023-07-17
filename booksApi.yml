@@ -3,7 +3,10 @@ info:
   title: API for Book's shop
   version: "1.0"
 servers:
-  - url: http://localhost:5000/api/v1
+  - description: live
+    url: https://books-shop-backend-production.up.railway.app/api/v1
+  - description: localhost
+    url: http://localhost:5000/api/v1
 tags:
   - name: Auth
     description: User authentication
@@ -47,9 +50,16 @@ paths:
                   message:
                     type: string
                     example: successfully logged in
-                  accessToken:
-                    type: string
-                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                  data:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        example: admin@example.com
+                      accessToken:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+
         "400":
           $ref: "#/components/responses/400"
         "500":

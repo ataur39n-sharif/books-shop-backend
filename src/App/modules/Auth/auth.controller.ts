@@ -19,11 +19,11 @@ const singUp = catchAsync(async (req: Request, res: Response, next: NextFunction
 const login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const data = pickFunction(req.body, ["email", "password"])
     const validateData = AuthValidation.singIn.parse(data)
-    const {accessToken, refreshToken} = await AuthServices.logIntoAccount(validateData)
+    const {accessToken, refreshToken,email} = await AuthServices.logIntoAccount(validateData)
 
     res.cookie('refreshToken', refreshToken)
     sendResponse.success(res, {
-        data: {accessToken},
+        data: {accessToken,email},
         message: "Successfully logged in",
         statusCode: 200
     })
