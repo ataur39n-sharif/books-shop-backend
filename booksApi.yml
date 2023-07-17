@@ -144,7 +144,7 @@ paths:
           $ref: "#/components/responses/500"
     post:
       security:
-        - Auth: []
+        - Auth: [ ]
       description: Add new Book
       tags:
         - Book
@@ -183,7 +183,7 @@ paths:
   "/books/{id}":
     patch:
       security:
-        - Auth: []
+        - Auth: [ ]
       description: Update book information
       tags:
         - Book
@@ -203,7 +203,7 @@ paths:
           $ref: "#/components/responses/500"
     delete:
       security:
-        - Auth: []
+        - Auth: [ ]
       description: Delete a book
       tags:
         - Book
@@ -219,7 +219,7 @@ paths:
   "/wishlist":
     get:
       security:
-        - Auth: []
+        - Auth: [ ]
       description: retrieved books from wishlist.
       tags:
         - WishList
@@ -253,7 +253,7 @@ paths:
           $ref: "#/components/responses/500"
     post:
       security:
-        - Auth: []
+        - Auth: [ ]
       description: add books in wishlist.
       tags:
         - WishList
@@ -413,7 +413,7 @@ components:
         type: string
     BookFilterByDate:
       name: publicationDate
-      description: filter
+      description: filter (MM-DD-YYYY)
       in: query
       schema:
         type: string

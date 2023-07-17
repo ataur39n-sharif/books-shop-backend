@@ -60,7 +60,6 @@ export const MongoQueryHelper = (fieldType: string, fieldName: string, searchVal
                 }
             }
         }
-
     } else if (fieldType === 'ObjectId') {
         /*
         *  validate if you need to query by objectId=> Types.ObjectId.isValid(search)
