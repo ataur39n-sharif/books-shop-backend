@@ -17,6 +17,7 @@ const GetAllBooks = catchAsync(async (req: Request, res: Response, next: NextFun
         pagination
     } = queryOptimization<IBook>(req, ["title", "author", "publicationDate", "genre"])
 
+
     const result = await BookService.getBooks({search, filter, pagination, sort})
     sendResponse.success(res, {
         data: result,
@@ -38,14 +39,11 @@ const AddNewBook = catchAsync(async (req: Request, res: Response, next: NextFunc
         uid
     } = pickFunction(req.body, [...Object.keys(BookModel.schema.obj), "uid"])
 
-
     const validateData = BookValidator.newBookSchema.parse({
         title, author, genre,
         publicationDate: new Date(publicationDate),
         ownerId: uid && MongoHelper.convertToObjectId({uid}).uid
     })
-
-    console.log(validateData)
 
     const book = await BookService.addNew(validateData)
     sendResponse.success(res, {

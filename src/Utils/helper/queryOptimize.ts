@@ -70,6 +70,10 @@ export const MongoQueryHelper = (fieldType: string, fieldName: string, searchVal
                 $exists: false,
             }
         }
+    } else if (fieldType === 'Date') {
+        return {
+            [fieldName]: new Date(searchValue)
+        }
     } else {
         //default for string search
         return {

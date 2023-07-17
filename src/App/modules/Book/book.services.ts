@@ -7,34 +7,38 @@ import {calculatePagination, manageSorting, MongoQueryHelper} from "@/Utils/help
 const getBooks = async (
     payload: IQueryItems<IBook>
 ): Promise<IBook[]> => {
+    console.log({payload})
     const {filter, sort, pagination, search} = payload
     const searchQ = search.search
     const {page, limit, skip} = calculatePagination(pagination)
     const {sortBy, sortOrder} = manageSorting(sort)
     const conditions: any[] = []
-    const fields = Object.entries(BookModel.schema.obj)
 
     //search query
     if (searchQ) {
         conditions.push({
-            $or: fields.map(field => {
-                const fieldType = BookModel.schema.path(field[0]).instance //mongoose schema data type
+            $or: ['author', 'title', 'genre'].map(field => {
+                const fieldType = BookModel.schema.path(field).instance //mongoose schema data type
                 // const fieldType = typeof CowModel.schema.path(field[0]).options.type(); // Js data type
-                return MongoQueryHelper(fieldType, field[0], searchQ)
+                return MongoQueryHelper(fieldType, field, searchQ)
             })
         })
     }
+
     //filter query
     if (Object.entries(filter).length > 0) {
         conditions.push({
             $and: Object.entries(filter).map(([key, value]) => {
+                console.log({key, value})
                 const fieldType = BookModel.schema.path(key).instance
+                console.log({fieldType})
                 return MongoQueryHelper(fieldType, key, value as string)
             })
         })
     }
 
-    const query = conditions.length ? conditions : {}
+    const query = conditions.length ? {$and: conditions} : {}
+
     const books: IBook[] = await BookModel.find(query)
         .sort({[sortBy]: sortOrder})
         .skip(skip)
