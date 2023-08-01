@@ -1,13 +1,13 @@
 import catchAsync from "@/Utils/helper/catchAsync";
-import {NextFunction, Request, Response} from "express";
-import {pickFunction} from "@/Utils/helper/pickFunction";
+import { NextFunction, Request, Response } from "express";
+import { pickFunction } from "@/Utils/helper/pickFunction";
 import BookModel from "@/App/modules/Book/book.model";
-import {BookValidator} from "@/App/modules/Book/book.validation";
-import {BookService} from "@/App/modules/Book/book.services";
-import {sendResponse} from "@/Utils/helper/sendResponse";
-import {MongoHelper} from "@/Utils/helper/mongoHelper";
-import {IBook} from "@/App/modules/Book/book.types";
-import {queryOptimization} from "@/Utils/helper/queryOptimize";
+import { BookValidator } from "@/App/modules/Book/book.validation";
+import { BookService } from "@/App/modules/Book/book.services";
+import { sendResponse } from "@/Utils/helper/sendResponse";
+import { MongoHelper } from "@/Utils/helper/mongoHelper";
+import { IBook } from "@/App/modules/Book/book.types";
+import { queryOptimization } from "@/Utils/helper/queryOptimize";
 
 const GetAllBooks = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const {
@@ -18,7 +18,7 @@ const GetAllBooks = catchAsync(async (req: Request, res: Response, next: NextFun
     } = queryOptimization<IBook>(req, ["title", "author", "publicationDate", "genre"])
 
 
-    const result = await BookService.getBooks({search, filter, pagination, sort})
+    const result = await BookService.getBooks({ search, filter, pagination, sort })
     sendResponse.success(res, {
         data: result,
         message: "Books retrieved successfully",
@@ -26,8 +26,14 @@ const GetAllBooks = catchAsync(async (req: Request, res: Response, next: NextFun
     })
 })
 
-const GetOwnBook = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-
+const GetSingleBook = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { book_id } = req.body
+    const data = await BookService.singleBook(book_id)
+    sendResponse.success(res, {
+        message: 'Book successfully retrieved',
+        statusCode: 200,
+        data
+    })
 })
 
 const AddNewBook = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -42,7 +48,7 @@ const AddNewBook = catchAsync(async (req: Request, res: Response, next: NextFunc
     const validateData = BookValidator.newBookSchema.parse({
         title, author, genre,
         publicationDate: new Date(publicationDate),
-        ownerId: uid && MongoHelper.convertToObjectId({uid}).uid
+        ownerId: uid && MongoHelper.convertToObjectId({ uid }).uid
     })
 
     const book = await BookService.addNew(validateData)
@@ -76,7 +82,7 @@ const DeleteBook = catchAsync(async (req: Request, res: Response, next: NextFunc
 })
 
 export const BookController = {
-    GetOwnBook,
+    GetSingleBook,
     GetAllBooks,
     AddNewBook,
     EditBook,

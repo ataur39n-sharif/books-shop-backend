@@ -1,16 +1,16 @@
-import {IBook} from "@/App/modules/Book/book.types";
+import { IBook } from "@/App/modules/Book/book.types";
 import BookModel from "@/App/modules/Book/book.model";
-import {Types} from "mongoose";
-import {IQueryItems} from "@/Utils/types/query.type";
-import {calculatePagination, manageSorting, MongoQueryHelper} from "@/Utils/helper/queryOptimize";
+import { Types } from "mongoose";
+import { IQueryItems } from "@/Utils/types/query.type";
+import { calculatePagination, manageSorting, MongoQueryHelper } from "@/Utils/helper/queryOptimize";
 
 const getBooks = async (
     payload: IQueryItems<IBook>
 ): Promise<IBook[]> => {
-    const {filter, sort, pagination, search} = payload
+    const { filter, sort, pagination, search } = payload
     const searchQ = search.search
-    const {page, limit, skip} = calculatePagination(pagination)
-    const {sortBy, sortOrder} = manageSorting(sort)
+    const { page, limit, skip } = calculatePagination(pagination)
+    const { sortBy, sortOrder } = manageSorting(sort)
     const conditions: any[] = []
 
     //search query
@@ -33,12 +33,17 @@ const getBooks = async (
         })
     }
 
-    const query = conditions.length ? {$and: conditions} : {}
+    const query = conditions.length ? { $and: conditions } : {}
     const books: IBook[] = await BookModel.find(query)
-        .sort({[sortBy]: sortOrder})
+        .sort({ [sortBy]: sortOrder })
         .skip(skip)
         .limit(limit)
 
+    return books
+}
+
+const singleBook = async (id: string): Promise<IBook | null> => {
+    const books: IBook | null = await BookModel.findOne({ _id: id })
     return books
 }
 
@@ -48,14 +53,14 @@ const addNew = async (data: IBook): Promise<IBook> => {
 }
 
 const updateBook = async (id: Types.ObjectId, data: Partial<IBook>) => {
-    const updateBook: IBook | null = await BookModel.findOneAndUpdate({_id: id}, data, {
+    const updateBook: IBook | null = await BookModel.findOneAndUpdate({ _id: id }, data, {
         new: true
     })
     return updateBook
 }
 
 const deleteBook = async (id: Types.ObjectId): Promise<boolean> => {
-    const book = await BookModel.deleteOne({_id: id}, {
+    const book = await BookModel.deleteOne({ _id: id }, {
         new: true
     })
     return book.deletedCount > 0
@@ -63,6 +68,7 @@ const deleteBook = async (id: Types.ObjectId): Promise<boolean> => {
 
 export const BookService = {
     getBooks,
+    singleBook,
     addNew,
     updateBook,
     deleteBook
