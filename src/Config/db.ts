@@ -4,7 +4,7 @@ import config from "@/Config";
 const connectDB = async () => {
     try {
         if (config.mongo_uri !== undefined) {
-            await mongoose.connect(mongo_uri)
+            await mongoose.connect(config.mongo_uri)
             console.log("Database connection established.")
         } else {
             console.log('retrying to establish DB connection')
