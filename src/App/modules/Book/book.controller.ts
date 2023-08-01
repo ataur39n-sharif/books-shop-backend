@@ -27,8 +27,8 @@ const GetAllBooks = catchAsync(async (req: Request, res: Response, next: NextFun
 })
 
 const GetSingleBook = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { book_id } = req.body
-    const data = await BookService.singleBook(book_id)
+    const { id } = req.params
+    const data = await BookService.singleBook(id)
     sendResponse.success(res, {
         message: 'Book successfully retrieved',
         statusCode: 200,
