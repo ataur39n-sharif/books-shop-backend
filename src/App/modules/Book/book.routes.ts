@@ -6,7 +6,7 @@ const BookRoutes = Router()
 
 BookRoutes
     .get('/', BookController.GetAllBooks)
-    .get('/',
+    .get('/:id',
         BookMiddleware.validateOwner,
         BookController.GetSingleBook
     )
