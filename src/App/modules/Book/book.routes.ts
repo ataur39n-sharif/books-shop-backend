@@ -7,7 +7,6 @@ const BookRoutes = Router()
 BookRoutes
     .get('/', BookController.GetAllBooks)
     .get('/:id',
-        BookMiddleware.validateAccess,
         BookController.GetSingleBook
     )
     .post('/',
