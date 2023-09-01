@@ -4,7 +4,7 @@ info:
   version: "1.0"
 servers:
   - description: live
-    url: https://books-shop-backend-production.up.railway.app/api/v1
+    url: https://book-shop-tl35.onrender.com/api/v1
   - description: localhost
     url: http://localhost:5000/api/v1
 tags:
